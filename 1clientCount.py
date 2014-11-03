@@ -61,7 +61,7 @@ def get_mon_iface(args):
     else:
         # Start monitor mode on a wireless interface
         print '['+G+'*'+W+'] Finding the most powerful interface...'
-        interface = get_iface(interfaces)
+        interface = get_iface(args, interfaces)
         monmode = start_mon_mode(interface)
         return monmode
 
