@@ -84,7 +84,7 @@ def iwconfig():
                         interfaces[iface] = 0
     return monitors, interfaces
 
-def get_iface(interfaces):
+def get_iface(args, interfaces):
     scanned_aps = []
 
     if len(interfaces) < 1:
@@ -104,6 +104,7 @@ def get_iface(interfaces):
         print '['+G+'+'+W+'] Networks discovered by '+G+iface+W+': '+T+str(count)+W
     try:
         raw_input(scanned_aps)
+        if args.restrict in scanned_aps: scanned_aps.remove(thing)
         interface = max(scanned_aps)[1]
         raw_input(interface)
         if interface != 'wlan0':
