@@ -104,6 +104,7 @@ def get_iface(interfaces):
         print '['+G+'+'+W+'] Networks discovered by '+G+iface+W+': '+T+str(count)+W
     try:
         interface = max(scanned_aps)[1]
+        raw_input(interface)
         if interface != 'wlan0':
             return interface
     except Exception as e:
