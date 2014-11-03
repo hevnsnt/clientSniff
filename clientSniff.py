@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 # The previous line ensures that this script is run under the context
-# of the Python interpreter. Next, import the Scapy functions:
+# of the Python interpreter. Next, import the needed functions:
 from scapy.all import *
 from os import system
 
 # Define the interface name that we will be sniffing from, you can
 # change this if needed.
-interface = "mon0"
+interface = "en1"
 
-# Next, declare a Python list to keep track of client MAC addresses
-# that we have already seen so we only print the address once per client.
+# Next, declare a Python dictionary that we will use to keep track of client MAC addresses
+# and number of packets seen.  Ex. '00:00:00:00:00:00': 34
 observedclients = {}
 
 # The sniffmgmt() function is called each time Scapy receives a packet
@@ -19,7 +19,7 @@ def sniffmgmt(p):
 
     # Define our tuple (an immutable list) of the 3 management frame
     # subtypes sent exclusively by clients. I got this list from Wireshark.
-    stamgmtstypes = (0, 2, 4)
+    stamgmtstypes = (0, 2, 4, 8, 20)
 
     # Make sure the packet has the Scapy Dot11 layer present
     if p.haslayer(Dot11):
@@ -27,7 +27,7 @@ def sniffmgmt(p):
         # Check to make sure this is a management frame (type=0) and that
         # the subtype is one of our management frame subtypes indicating a
         # a wireless client
-        if p.type == 0 and p.subtype in stamgmtstypes:
+        if p.type <= 3 and p.subtype in stamgmtstypes:
 
             # We only want to print the MAC address of the client if it
             # hasn't already been observed. Check our list and if the
