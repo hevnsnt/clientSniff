@@ -102,7 +102,7 @@ def get_iface(args, interfaces):
                count += 1
         scanned_aps.append((count, iface))
         if args.restrict:
-            scanned_aps = [(count, intf) for count, intf in scanned_aps if intf != restrict]
+            scanned_aps = [(count, intf) for count, intf in scanned_aps if intf != args.restrict]
         print '['+G+'+'+W+'] Networks discovered by '+G+iface+W+': '+T+str(count)+W
     try:
         raw_input(scanned_aps)
