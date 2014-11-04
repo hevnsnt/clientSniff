@@ -371,7 +371,7 @@ if __name__ == "__main__":
     hop.daemon = True
     hop.start()
 
-    signal(SIGINT, stop)
+    #signal(SIGINT, stop)
 
     try:
        sniff(iface=mon_iface, store=0, prn=packetfilter) #sniff is a Scapy call, give packet to function packetfilter
