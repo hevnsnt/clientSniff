@@ -1,4 +1,4 @@
 cd ..
-rm -rf clientSniff
+rm -rf /sd/clientSniff
 git clone git://github.com/hevnsnt/clientSniff.git
-cd clientSniff
+cd /sd/clientSniff
