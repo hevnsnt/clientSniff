@@ -55,14 +55,14 @@ def get_mon_iface(args):
     """
     Gets Monitor mode going!  
     """
-    if verbose: print('Entering get_mon_iface')
+    if verbose: print(+GREEN+ 'Entering get_mon_iface' +WHITE+)
     global monitor_on #Global Variable to keep track of monitor mode status
     monitors, interfaces = iwconfig() # Get current interface status
     if args.interface and args.interface in monitors: # Check to see if the passed a monitor interface via args was found
         monitor_on = True # if yes, set monitor mode status to true
         return args.interface
     if len(monitors) > 0: # if no monitor interface was selected, but we found some
-        if verbose: print('Found Monitor Interfaces: %s' % monitors)
+        if verbose: print(+GREEN+'Found Monitor Interfaces: %s' % monitors +WHITE+)
         monitor_on = True # Set monitor mode status to true
         return monitors[0] # Return the first monitor interface
     else:
