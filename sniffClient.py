@@ -46,7 +46,7 @@ def sniffmgmt(p):
             # it to our list.
             if p.addr2 not in observedclients:
                 observedclients[p.addr2] = 1
-                if p.addr1 and p.addr1 != 'ff:ff:ff:ff:ff:ff'
+                if p.addr1 and p.addr1 != 'ff:ff:ff:ff:ff:ff':
                     observedAPs['bssid'] = p.addr1
                     observedAPs['client'] = p.addr2
                 #observedclients['ssid'] = p.info
@@ -68,6 +68,8 @@ def printDictionary(clients, aps):
         print('%s - [%s]' % (key, value))
     print()
     print '['+G+'*'+W+'] AP List'
+    for key, value in aps.iteritems():
+        print('%s - [%s]' % (key, value))
     #for AP in observedAPs:
     #     print AP['ssid'] '['+G+':'+W+']' AP['bssid']
 
