@@ -284,6 +284,27 @@ def packetfilter(pkt):
             if pkt.type in [1, 2]:
                 clients_APs_add(clients_APs, pkt.addr1, pkt.addr2)
 
+
+def deauth(monchannel):
+    '''
+    addr1=destination, addr2=source, addr3=bssid, addr4=bssid of gateway if there's
+    multi-APs to one gateway. Constantly scans the clients_APs list and
+    starts a thread to deauth each instance
+    '''
+
+    pkts = []
+
+    if len(clients_APs) > 0:
+        with lock:
+            for x in clients_APs:
+                client = x[0]
+                ap = x[1]
+                ch = x[2]
+                # Can't add a RadioTap() layer as the first layer or it's a malformed
+                # Association request packet?
+                # Append the packets to a new list so we don't have to hog the lock
+                # type=0, subtype=12?
+
 def APs_add(clients_APs, APs, pkt, chan_arg):
     if verbose: print('[' + GREEN + '>>>' + WHITE + '] Entering APs_add')
     ssid       = pkt[Dot11Elt].info
