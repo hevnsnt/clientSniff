@@ -67,7 +67,8 @@ def get_mon_iface(args):
         print '['+GREEN+'*'+WHITE+'] Finding the most powerful interface...'
         interface = get_iface(interfaces) # pass a list of interfaces to get_iface which will choose and return the most powerful
         monmode = start_mon_mode(interface) # Start monitor mode on the most powerful interface
-        return monmode
+        get_mon_iface(args)
+        #return monmode
 
 def iwconfig():
     """
@@ -115,7 +116,7 @@ def get_iface(interfaces):
         print '['+GREEN+'+'+WHITE+'] Networks discovered by '+GREEN+iface+WHITE+': '+TAN+str(count)+WHITE
     try:
         interface = max(scanned_aps)[1] # Choose the interface that found the most APs
-            return interface
+        return interface
     except Exception as e:
         for iface in interfaces:
             interface = iface
@@ -131,7 +132,7 @@ def start_mon_mode(interface):
     try:
         os.system('ifconfig %s down' % interface)
         os.system('airmon-ng start %s > /dev/null' % interface)
-        return get_mon_iface(args) # Not sure if this is going to work or not, trying to return the new mon interface
+        #get_mon_iface(args) # Not sure if this is going to work or not, trying to return the new mon interface
     except Exception:
         sys.exit('['+RED+'-'+WHITE+'] Could not start monitor mode')
 
