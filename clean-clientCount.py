@@ -55,19 +55,19 @@ def get_mon_iface(args):
     """
     Gets Monitor mode going!  
     """
-    if verbose: print(+GREEN+ 'Entering get_mon_iface' +WHITE+)
+    if verbose: print(GREEN + 'Entering get_mon_iface' + WHITE)
     global monitor_on #Global Variable to keep track of monitor mode status
     monitors, interfaces = iwconfig() # Get current interface status
     if args.interface and args.interface in monitors: # Check to see if the passed a monitor interface via args was found
         monitor_on = True # if yes, set monitor mode status to true
         return args.interface
     if len(monitors) > 0: # if no monitor interface was selected, but we found some
-        if verbose: print(+GREEN+'Found Monitor Interfaces: %s' % monitors +WHITE+)
+        if verbose: print(GREEN + 'Found Monitor Interfaces: %s' % monitors + WHITE)
         monitor_on = True # Set monitor mode status to true
         return monitors[0] # Return the first monitor interface
     else:
         # Start monitor mode on a wireless interface
-        print '['+GREEN+'*'+WHITE+'] Finding the most powerful interface...'
+        print '[' + GREEN + '*' + WHITE +'] Finding the most powerful interface...'
         interface = get_iface(interfaces) # pass a list of interfaces to get_iface which will choose and return the most powerful
         monmode = start_mon_mode(interface) # Start monitor mode on the most powerful interface
         get_mon_iface(args)
