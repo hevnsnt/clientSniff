@@ -28,7 +28,6 @@ observedAPs = {}
 # (we'll tell Scapy to use this function below with the sniff() function).
 # The packet that was sniffed is passed as the function argument, "p".
 def sniffmgmt(p):
-
     # Define our tuple (an immutable list) of the 3 management frame
     # subtypes sent exclusively by clients. I got this list from Wireshark.
     stamgmtstypes = (0, 2, 4, 8, 20)
@@ -49,8 +48,6 @@ def sniffmgmt(p):
                 observedclients[p.addr2] = 1
             else:
                 observedclients[p.addr2] += 1
-            
-            printDictionary(observedclients)
             #print p.addr2
             #observedclients.append(p.addr2)
         else:
@@ -58,16 +55,20 @@ def sniffmgmt(p):
                 observedAPs[p.addr2] = 1
             else:
                 observedAPs[p.addr2] += 1
-            
-            printDictionary(observedAPs)
+    
+    printDictionary(observedclients, observedAPs)
 
 # With the sniffmgmt() function complete, we can invoke the Scapy sniff()
 # function, pointing to the monitor mode interface, and telling Scapy to call
 # the sniffmgmt() function for each packet received. Easy!
 
-def printDictionary(dict):
+def printDictionary(clients, aps):
     os.system('clear')
-    for key, value in dict.iteritems():
+    print '['+G+'*'+W+'] Client List'
+    for key, value in clients.iteritems():
+        print('%s - [%s]' % (key, value))
+    print '['+G+'*'+W+'] AP List'
+    for key, value in aps.iteritems():
         print('%s - [%s]' % (key, value))
 
 def sniffClients():
