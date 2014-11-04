@@ -46,6 +46,7 @@ def sniffmgmt(p):
             # it to our list.
             if p.addr2 not in observedclients:
                 observedclients[p.addr2] = 1
+                observedclients['ssid'] = p.info
             else:
                 observedclients[p.addr2] += 1
             #print p.addr2
