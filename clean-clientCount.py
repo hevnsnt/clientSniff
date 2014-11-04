@@ -252,7 +252,7 @@ def packetfilter(pkt):
 
     # return these if's keeping clients_APs the same or just reset clients_APs?
     # I like the idea of the tool repopulating the variable more
-    if args.maximum:
+    '''if args.maximum:
         if args.noupdate:
             if len(clients_APs) > int(args.maximum):
                 return
@@ -260,7 +260,7 @@ def packetfilter(pkt):
             if len(clients_APs) > int(args.maximum):
                 with lock:
                     clients_APs = []
-                    APs = []
+                    APs = []'''
 
     # We're adding the AP and channel to the deauth list at time of creation rather
     # than updating on the fly in order to avoid costly for loops that require a lock
