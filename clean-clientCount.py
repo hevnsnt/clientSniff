@@ -55,7 +55,7 @@ def get_mon_iface(args):
     """
     Gets Monitor mode going!  
     """
-    if verbose: print(GREEN + 'Entering get_mon_iface' + WHITE)
+    if verbose: print('[' + GREEN + '>>>' + WHITE + '] Entering get_mon_iface')
     global monitor_on #Global Variable to keep track of monitor mode status
     monitors, interfaces = iwconfig() # Get current interface status
     if args.interface and args.interface in monitors: # Check to see if the passed a monitor interface via args was found
@@ -78,7 +78,7 @@ def iwconfig():
     Gets all network interfaces, and looks for interfaces already in monitor mode
     returns list of Wireless Interfaces (interfaces) and Monitor Interfaces (monitors)
     """
-    if verbose: print('Entering iwconfig')
+    if verbose: print('[' + GREEN + '>>>' + WHITE + '] Entering iwconfig')
     monitors = []
     interfaces = {}
     proc = Popen(['iwconfig'], stdout=PIPE, stderr=DN)
@@ -103,7 +103,7 @@ def get_iface(interfaces):
     """
     Scans for APs with all Wireless interfaces, and returns the strongest interface (per AP count)
     """
-    if verbose: print('Entering get_iface')
+    if verbose: print('[' + GREEN + '>>>' + WHITE + '] Entering get_iface')
     scanned_aps = [] # Create a list of APs
 
     if len(interfaces) < 1: # Did we find any wireless interfaces?
@@ -135,7 +135,7 @@ def start_mon_mode(interface):
     """
     Attempts to use airmon-ng to start monitor mode on the strongest interface, and return the monitor interface
     """
-    if verbose: print('Entering start_mon_mode')
+    if verbose: print('[' + GREEN + '>>>' + WHITE + '] Entering start_mon_mode')
     print '['+GREEN+'+'+WHITE+'] Attempting to start monitor mode on '+GREEN+interface+WHITE
     try:
         os.system('ifconfig %s down' % interface)
@@ -145,7 +145,7 @@ def start_mon_mode(interface):
         sys.exit('['+RED+'-'+WHITE+'] Could not start monitor mode')
 
 def remove_mon_iface(mon_iface):
-    if verbose: print('Entering remove_mon_iface')
+    if verbose: print('[' + GREEN + '>>>' + WHITE + '] Entering remove_mon_iface')
     os.system('ifconfig %s down' % mon_iface)
     os.system('iwconfig %s mode managed' % mon_iface)
     os.system('ifconfig %s up' % mon_iface)
@@ -154,7 +154,7 @@ def mon_mac(mon_iface):
     '''
     http://stackoverflow.com/questions/159137/getting-mac-address
     '''
-    if verbose: print('Entering mon_mac: %s' % mon_iface)
+    if verbose: print('[' + GREEN + '>>>' + WHITE + '] Entering mon_mac: %s' % mon_iface)
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     info = fcntl.ioctl(s.fileno(), 0x8927,  struct.pack('256s', mon_iface[:15]))
     mac = ''.join(['%02x:' % ord(char) for char in info[18:24]])[:-1]
@@ -171,7 +171,7 @@ def channel_hop(mon_iface, args):
     First time it runs through the channels it stays on each channel for 5 seconds
     in order to populate the deauth list nicely. After that it goes as fast as it can
     '''
-    if verbose: print('Entering channel_hop')
+    if verbose: print('[' + GREEN + '>>>' + WHITE + '] Entering channel_hop')
     global monchannel, first_pass
 
     channelNum = 0
@@ -208,7 +208,7 @@ def channel_hop(mon_iface, args):
 
 
 def output(err, monchannel):
-    if verbose: print('Entering output')
+    if verbose: print('[' + GREEN + '>>>' + WHITE + '] Entering output')
     time.sleep(1)
     os.system('clear')
     if err:
@@ -232,7 +232,7 @@ def output(err, monchannel):
     print ''
 
 def noise_filter(skip, addr1, addr2):
-    if verbose: print('Entering noise_filter')
+    if verbose: print('[' + GREEN + '>>>' + WHITE + '] Entering noise_filter')
     # Broadcast, broadcast, IPv6mcast, spanning tree, spanning tree, multicast, broadcast
     ignore = ['ff:ff:ff:ff:ff:ff', '00:00:00:00:00:00', '33:33:00:', '33:33:ff:', '01:80:c2:00:00:00', '01:00:5e:', mon_MAC]
     if skip:
@@ -247,7 +247,7 @@ def packetfilter(pkt):
     are type 1 or 2 (control, data), and append the addr1 and addr2
     to the list of deauth targets.
     '''
-    if verbose: print('Entering packetfilter')
+    if verbose: print('[' + GREEN + '>>>' + WHITE + '] Entering packetfilter')
     global clients_APs, APs
 
     # return these if's keeping clients_APs the same or just reset clients_APs?
@@ -285,7 +285,7 @@ def packetfilter(pkt):
                 clients_APs_add(clients_APs, pkt.addr1, pkt.addr2)
 
 def APs_add(clients_APs, APs, pkt, chan_arg):
-    if verbose: print('Entering APs_add')
+    if verbose: print('[' + GREEN + '>>>' + WHITE + '] Entering APs_add')
     ssid       = pkt[Dot11Elt].info
     bssid      = pkt[Dot11].addr3
     try:
@@ -314,7 +314,7 @@ def APs_add(clients_APs, APs, pkt, chan_arg):
             return APs.append([bssid, ap_channel, ssid])
 
 def clients_APs_add(clients_APs, addr1, addr2):
-    if verbose: print('Entering clients_APs_add')
+    if verbose: print('[' + GREEN + '>>>' + WHITE + '] Entering clients_APs_add')
 
     if len(clients_APs) == 0:
         if len(APs) == 0:
@@ -336,14 +336,14 @@ def clients_APs_add(clients_APs, addr1, addr2):
                 return clients_APs.append([addr1, addr2, monchannel])
 
 def AP_check(addr1, addr2):
-    if verbose: print('Entering AP_check')
+    if verbose: print('[' + GREEN + '>>>' + WHITE + '] Entering AP_check')
     for ap in APs:
         if ap[0].lower() in addr1.lower() or ap[0].lower() in addr2.lower():
             with lock:
                 return clients_APs.append([addr1, addr2, ap[1], ap[2]])
 
 def stop(signal, frame):
-    if verbose: print('Entering stop')
+    if verbose: print('[' + GREEN + '>>>' + WHITE + '] Entering stop')
     if monitor_on:
         sys.exit('\n['+RED+'!'+WHITE+'] Closing')
     else:
