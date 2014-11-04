@@ -166,10 +166,10 @@ def channel_hop(mon_iface, args):
             with lock:
                 monchannel = str(channelNum)
 
-            #proc = Popen(['iw', 'dev', mon_iface, 'set', 'channel', monchannel], stdout=DN, stderr=PIPE)
-            print('Monitor Interface: ' % mon_iface)
-            print('Monitor Channel: ' % monchannel)
-            proc = Popen(['airmon-ng', 'start', mon_iface, monchannel], #stdout=DN, stderr=PIPE)
+            proc = Popen(['iw', 'dev', mon_iface, 'set', 'channel', monchannel], stdout=DN, stderr=PIPE)
+            #print('Monitor Interface: ' % mon_iface)
+            #print('Monitor Channel: ' % monchannel)
+            #proc = Popen(['airmon-ng', 'start', mon_iface, monchannel], #stdout=DN, stderr=PIPE)
             print proc
             for line in proc.communicate()[1].split('\n'):
                 if len(line) > 2: # iw dev shouldnt display output unless there's an error
