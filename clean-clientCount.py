@@ -361,6 +361,7 @@ if __name__ == "__main__":
     monitor_on = None # Check to see if this is the first time through
     verbose = args.verboseMode
     mon_iface = get_mon_iface(args) #Will return if passed arg interface via args
+    if verbose : raw_input('Mon_iface is known as: %s' % mon_iface)
     conf.iface = mon_iface
     mon_MAC = mon_mac(mon_iface)
     first_pass = 1
