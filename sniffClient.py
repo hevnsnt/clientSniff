@@ -22,7 +22,7 @@ interface = "mon0"
 # Next, declare a Python dictionary that we will use to keep track of client MAC addresses
 # and number of packets seen.  Ex. '00:00:00:00:00:00': 34
 observedclients = {}
-observedAPs = {}
+observedAPs = ()
 
 # The sniffmgmt() function is called each time Scapy receives a packet
 # (we'll tell Scapy to use this function below with the sniff() function).
@@ -51,10 +51,11 @@ def sniffmgmt(p):
             #print p.addr2
             #observedclients.append(p.addr2)
         else:
-            if p.addr2 not in observedAPs:
-                observedAPs[p.addr2] = 1
-            else:
-                observedAPs[p.addr2] += 1
+            dict = {'ssid':p.info, 'bssid':p.addr2}
+            observedAPs.append(dict)
+            #if p.addr2 not in observedAPs:
+            #    observedAPs['BSSID'] = p.addr2
+            #    observedAPs['SSID'] = p.info
     
     printDictionary(observedclients, observedAPs)
 
@@ -67,9 +68,10 @@ def printDictionary(clients, aps):
     print '['+G+'*'+W+'] Client List'
     for key, value in clients.iteritems():
         print('%s - [%s]' % (key, value))
+    print()
     print '['+G+'*'+W+'] AP List'
-    for key, value in aps.iteritems():
-        print('%s - [%s]' % (key, value))
+    for AP in observedAPs:
+         print AP['ssid'] '['+G+':'+W+']' AP['bssid']
 
 def sniffClients():
     sniff(iface=interface, prn=sniffmgmt)
