@@ -375,7 +375,8 @@ if __name__ == "__main__":
 
     try:
        sniff(iface=mon_iface, store=0, prn=packetfilter) #sniff is a Scapy call, give packet to function packetfilter
-    except Exception as msg:
+    except Exception, e:
+        print ('error: %s' %e)
         print '\n['+RED+'!!!!!!!!!'+WHITE+'] Killing Monitor Interface'
         remove_mon_iface(mon_iface)
         print '\n['+RED+'!!!!!!!!!'+WHITE+'] Closing'
