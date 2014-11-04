@@ -100,11 +100,11 @@ def get_iface(args, interfaces):
         for line in proc.communicate()[0].split('\n'):
             if ' - Address:' in line: # first line in iwlist scan for a new AP
                count += 1
-        scanned_aps.append((count, iface))
+        scanned_aps.append((count, iface)) # scanned_aps = [(6, 'wlan1'), (11, 'wlan0')]
         print '['+G+'+'+W+'] Networks discovered by '+G+iface+W+': '+T+str(count)+W
-        if args.restrict:
-    print '['+G+'+'+W+'] Removing '+G+args.restrict+W+' from candidate list:'
-    scanned_aps = [(count, intf) for count, intf in scanned_aps if intf != args.restrict]
+    if args.restrict:
+        print '['+G+'+'+W+'] Removing '+G+args.restrict+W+' from candidate list:'
+        scanned_aps = [(count, intf) for count, intf in scanned_aps if intf != args.restrict]
         
     try:
         interface = max(scanned_aps)[1]
@@ -252,9 +252,9 @@ def output(err, monchannel):
     with lock:
         for ca in clients_APs:
             if len(ca) > 3:
-                print '['+T+'*'+W+'] '+O+ca[0]+W+' - '+O+ca[1]+W+' - '+ca[2].ljust(2)+' - '+T+ca[3]+W
+                print '['+T+'*'+W+'] '+B+ca[0]+W+' - '+O+ca[1]+W+' - '+ca[2].ljust(2)+' - '+T+ca[3]+W
             else:
-                print '['+T+'*'+W+'] '+O+ca[0]+W+' - '+O+ca[1]+W+' - '+ca[2]
+                print '['+T+'*'+W+'] '+B+ca[0]+W+' - '+O+ca[1]+W+' - '+ca[2]
     if len(APs) > 0:
         print '\n      Access Points     ch   ESSID'
     with lock:
