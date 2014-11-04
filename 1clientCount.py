@@ -177,6 +177,7 @@ def channel_hop(mon_iface, args):
             for line in proc.communicate()[1].split('\n'):
                 if len(line) > 2: # iw dev shouldnt display output unless there's an error
                     err = '['+R+'-'+W+'] Channel hopping failed: '+R+line+W
+                    raw_input(line)
 
         output(err, monchannel)
         if args.channel:
@@ -252,9 +253,9 @@ def output(err, monchannel):
     with lock:
         for ca in clients_APs:
             if len(ca) > 3:
-                print '['+T+'*'+W+'] '+B+ca[0]+W+' - '+O+ca[1]+W+' - '+ca[2].ljust(2)+' - '+T+ca[3]+W
+                print '['+T+'*'+W+'] '+G+ca[0]+W+' - '+O+ca[1]+W+' - '+ca[2].ljust(2)+' - '+T+ca[3]+W
             else:
-                print '['+T+'*'+W+'] '+B+ca[0]+W+' - '+O+ca[1]+W+' - '+ca[2]
+                print '['+T+'*'+W+'] '+G+ca[0]+W+' - '+O+ca[1]+W+' - '+ca[2]
     if len(APs) > 0:
         print '\n      Access Points     ch   ESSID'
     with lock:
