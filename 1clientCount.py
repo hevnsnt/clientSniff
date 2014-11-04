@@ -177,7 +177,6 @@ def channel_hop(mon_iface, args):
             for line in proc.communicate()[1].split('\n'):
                 if len(line) > 2: # iw dev shouldnt display output unless there's an error
                     err = '['+R+'-'+W+'] Channel hopping failed: '+R+line+W
-                    raw_input(line)
 
         output(err, monchannel)
         if args.channel:
@@ -391,9 +390,9 @@ if __name__ == "__main__":
     first_pass = 1
 
     # Start channel hopping
-    hop = Thread(target=channel_hop, args=(mon_iface, args))
-    hop.daemon = True
-    hop.start()
+    #hop = Thread(target=channel_hop, args=(mon_iface, args))
+    #hop.daemon = True
+    #hop.start()
 
     signal(SIGINT, stop)
 
