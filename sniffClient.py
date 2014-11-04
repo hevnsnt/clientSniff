@@ -4,6 +4,17 @@
 from scapy.all import *
 from os import system
 
+# Console colors
+W  = '\033[0m'  # white (normal)
+R  = '\033[31m' # red
+G  = '\033[32m' # green
+O  = '\033[33m' # orange
+B  = '\033[1;34m' # blue
+P  = '\033[35m' # purple
+C  = '\033[36m' # cyan
+GR = '\033[37m' # gray
+T  = '\033[93m' # tan
+
 # Define the interface name that we will be sniffing from, you can
 # change this if needed.
 interface = "mon0"
@@ -11,6 +22,7 @@ interface = "mon0"
 # Next, declare a Python dictionary that we will use to keep track of client MAC addresses
 # and number of packets seen.  Ex. '00:00:00:00:00:00': 34
 observedclients = {}
+observedAPs = {}
 
 # The sniffmgmt() function is called each time Scapy receives a packet
 # (we'll tell Scapy to use this function below with the sniff() function).
@@ -41,6 +53,13 @@ def sniffmgmt(p):
             printDictionary(observedclients)
             #print p.addr2
             #observedclients.append(p.addr2)
+        else:
+            if p.addr2 not in observedAPs:
+                observedAPs[p.addr2] = 1
+            else:
+                observedAPs[p.addr2] += 1
+            
+            printDictionary(observedAPs)
 
 # With the sniffmgmt() function complete, we can invoke the Scapy sniff()
 # function, pointing to the monitor mode interface, and telling Scapy to call
