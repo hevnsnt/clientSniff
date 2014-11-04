@@ -87,12 +87,14 @@ def iwconfig():
             if not wired_search: # Isn't wired
                 iface = line[:line.find(' ')] # is the interface
                 if 'Mode:Monitor' in line:
+                    if verbose: print('Found Monitor Interface: %s' % iface)
                     monitors.append(iface)
                 elif 'IEEE 802.11' in line:
                     if "ESSID:\"" in line:
                         interfaces[iface] = 1
                     else:
                         interfaces[iface] = 0
+    if verbose: print('Monitors: %s \n\n Interfaces: %s' % (monitors, interfaces))
     return monitors, interfaces
 
 def get_iface(interfaces):
