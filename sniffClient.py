@@ -6,7 +6,7 @@ from os import system
 
 # Define the interface name that we will be sniffing from, you can
 # change this if needed.
-interface = "en1"
+interface = "mon0"
 
 # Next, declare a Python dictionary that we will use to keep track of client MAC addresses
 # and number of packets seen.  Ex. '00:00:00:00:00:00': 34
