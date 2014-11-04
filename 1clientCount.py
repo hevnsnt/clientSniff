@@ -119,21 +119,14 @@ def get_iface(args, interfaces):
 def start_mon_mode(interface):
     print '['+G+'+'+W+'] Starting monitor mode off '+G+interface+W
     try:
-        os.system('ifconfig %s down' % interface)
+        #os.system('ifconfig %s down' % interface)
         os.system('airmon-ng start %s > /dev/null' % interface)
-        '''
-        os.system('ifconfig %s down' % interface)
-        os.system('iwconfig %s mode monitor' % interface)
-        os.system('ifconfig %s up' % interface)
-        '''
         return interface
     except Exception:
         sys.exit('['+R+'-'+W+'] Could not start monitor mode')
 
 def remove_mon_iface(mon_iface):
-    os.system('ifconfig %s down' % mon_iface)
-    os.system('iwconfig %s mode managed' % mon_iface)
-    os.system('ifconfig %s up' % mon_iface)
+    os.system('airmon-ng stop %s > /dev/null' % interface)
 
 def mon_mac(mon_iface):
     '''
@@ -173,7 +166,8 @@ def channel_hop(mon_iface, args):
             with lock:
                 monchannel = str(channelNum)
 
-            proc = Popen(['iw', 'dev', mon_iface, 'set', 'channel', monchannel], stdout=DN, stderr=PIPE)
+            #proc = Popen(['iw', 'dev', mon_iface, 'set', 'channel', monchannel], stdout=DN, stderr=PIPE)
+            proc = Popen(['airmon-ng', 'start', mon_iface, monchannel], stdout=DN, stderr=PIPE)
             for line in proc.communicate()[1].split('\n'):
                 if len(line) > 2: # iw dev shouldnt display output unless there's an error
                     err = '['+R+'-'+W+'] Channel hopping failed: '+R+line+W
@@ -390,9 +384,9 @@ if __name__ == "__main__":
     first_pass = 1
 
     # Start channel hopping
-    #hop = Thread(target=channel_hop, args=(mon_iface, args))
-    #hop.daemon = True
-    #hop.start()
+    hop = Thread(target=channel_hop, args=(mon_iface, args))
+    hop.daemon = True
+    hop.start()
 
     signal(SIGINT, stop)
 
