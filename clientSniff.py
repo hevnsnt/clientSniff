@@ -236,14 +236,7 @@ def checkLinuxMac(mac):
 def parse_args():
 	#Create the arguments
 	parser = argparse.ArgumentParser()
-	parser.add_argument("-i", "--interface", help="Choose monitor mode interface. By default script will find the most powerful interface and starts monitor mode on it. Example: -i mon5")
-	parser.add_argument("-c", "--channel", help="Listen on and deauth only clients on the specified channel. Example: -c 6")
 	parser.add_argument("-v", "--verbose", help="Enable Verbose mode (for debugging purposes) Example: -v", action='store_true', dest='verboseMode')
-	parser.add_argument("-n", "--noupdate", help="Do not clear the deauth list when the maximum (-m) number of client/AP combos is reached. Must be used in conjunction with -m. Example: -m 10 -n", action='store_true')
-	parser.add_argument("-t", "--timeinterval", help="Choose the time interval between packets being sent. Default is as fast as possible. If you see scapy errors like 'no buffer space' try: -t .00001")
-	parser.add_argument("-p", "--packets", help="Choose the number of packets to send in each deauth burst. Default value is 1; 1 packet to the client and 1 packet to the AP. Send 2 deauth packets to the client and 2 deauth packets to the AP: -p 2")
-	parser.add_argument("-d", "--directedonly", help="Skip the deauthentication packets to the broadcast address of the access points and only send them to client/AP pairs", action='store_true')
-	parser.add_argument("-a", "--accesspoint", help="Enter the MAC address of a specific access point to target")
 	return parser.parse_args()
 
 
