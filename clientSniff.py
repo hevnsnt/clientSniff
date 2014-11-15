@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 ############################## ClientSniff #####################################
 # This application does:
+# The first hacker tool that targets wireless CLIENTS rather than ACCESS POINTS 
+# Automatically Targets Captive Portal Participating Clients Fully Auto DeAuth, CloneMAC, and Client Mode setup
 # And was written for the #TRiKC 0x01 Competition on 11/12/14 in Kansas City
 # ots of code "borrowed" from (and thanks to)
 # http://danmcinerney.org/how-to-kick-everyone-around-you-off-wifi-with-python/
