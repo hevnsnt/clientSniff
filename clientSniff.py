@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 ############################## ClientSniff #####################################
 # This application does:
+# The first hacker tool that targets wireless CLIENTS rather than ACCESS POINTS 
+# Automatically Targets Captive Portal Participating Clients Fully Auto DeAuth, CloneMAC, and Client Mode setup
 # And was written for the #TRiKC 0x01 Competition on 11/12/14 in Kansas City
 # Lots of code "borrowed" from (and thanks to)
 # http://danmcinerney.org/how-to-kick-everyone-around-you-off-wifi-with-python/
@@ -10,7 +12,6 @@
 # airmon-ng start wlan0
 ############################## ClientSniff #####################################
 
-
 from scapy.all import *
 conf.verb = 0  # Scapy I thought I told you to shut up
 import os
@@ -19,8 +20,11 @@ from threading import Thread, Lock
 from subprocess import Popen, PIPE
 
 ############################## Config #####################################
+## As of right now, this script is primarily written for the MK5 Pineapple
+## In future versions I will make it more available to other platforms
+
 sniffinterface = 'mon0'
-clientinterface = 'wlan1'
+clientinterface = 'wlan0'
 version = '0x01'
 
 
@@ -138,7 +142,7 @@ def sniffmgmt(p):
 					lastaction = 'Client: %s found on BSSID: %s' % (client, bssid)
 						#if bssid in ('40:16:7e:f4:78:39', '00:13:37:a5:21:2f'):
 							#raw_input('!!!!!!!')
-					
+
 					###### Check to see if BSSID already in the ##--Target--## List
 					if bssid in targetAPs:  # BSSID already in the Target list
 						if client not in targetAPs[bssid]['clients']:  # Do we already know about the target client?
@@ -161,7 +165,7 @@ def sniffmgmt(p):
 
 					else:
 						return
-						
+
 			except:
 				return
 	output(observedAPs, targetAPs)
@@ -228,8 +232,8 @@ def checkLinuxMac(mac):
     """Returns true if the current device mac address matches the mac given as input"""
     output = subprocess.Popen(["ifconfig", "%s" % clientinterface], stdout=subprocess.PIPE).communicate()[0]
     index = output.find('HWaddr') + len('HWaddr ')
-    localAddr = output[index:index+17].lower() 
-    return mac == localAddr 
+    localAddr = output[index:index+17].lower()
+    return mac == localAddr
 
 
 
