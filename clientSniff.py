@@ -2,7 +2,7 @@
 ############################## ClientSniff #####################################
 # This application does:
 # And was written for the #TRiKC 0x01 Competition on 11/12/14 in Kansas City
-# ots of code "borrowed" from (and thanks to)
+# Lots of code "borrowed" from (and thanks to)
 # http://danmcinerney.org/how-to-kick-everyone-around-you-off-wifi-with-python/
 # http://pen-testing.sans.org/blog/pen-testing/2011/10/13/special-request-wireless-client-sniffing-with-scapy
 #
@@ -145,7 +145,7 @@ def sniffmgmt(p):
 							lastaction = ('New Client Found: %s \t AP: %s' % (client, bssid))
 							targetAPs[bssid]['clients'][client] = {'count': 1}
 							targetAPs[bssid]['clients'][client]['internet'] = False
-							clientMode(client)
+							if args.verboseMode: clientMode(client)
 						else:  # We already know about it, lets increment the counter
 							targetAPs[bssid]['clients'][client]['count'] = targetAPs[bssid]['clients'][client]['count'] + 1
 							lastaction = "incremented target counter for %s" % client
@@ -237,6 +237,7 @@ def parse_args():
 	#Create the arguments
 	parser = argparse.ArgumentParser()
 	parser.add_argument("-v", "--verbose", help="Enable Verbose mode (for debugging purposes) Example: -v", action='store_true', dest='verboseMode')
+	parser.add_argument('-a', "--auto", help="Enable auto-mode, this will identify, target, and clone a MAC address.", action='store_true', dest='autoMode')
 	return parser.parse_args()
 
 
